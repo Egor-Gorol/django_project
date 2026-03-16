@@ -1,0 +1,167 @@
+{% extends 'base.html' %}
+
+{% block title %}Каталог товарів - AgroRIA{% endblock %}
+
+{% block content %}
+    <!-- Header -->
+    <div style="background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%); padding: 40px 0; border-bottom: none; color: white;">
+        <div class="container">
+            <h1 style="margin: 0; color: white;">Каталог товарів</h1>
+            <p style="color: rgba(255, 255, 255, 0.9); margin: 10px 0 0 0;">Виберіть товар своєї мрії з нашої великої колекції</p>
+        </div>
+    </div>
+
+    <div class="container py-5">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-3">
+                <div class="sidebar">
+                    <!-- Search -->
+                    <div class="search-box">
+                        <form method="get" class="d-flex">
+                            <input type="text" name="search" class="form-control" placeholder="Пошук товарів..." value="{{ search_query }}">
+                            <button type="submit" class="btn btn-sm ms-2" style="background-color: #22c55e; color: white; border: 1px solid #22c55e;">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Categories -->
+                    <h5>Марки товарів</h5>
+                    <div class="category-list">
+                        <a href="{% url 'products:product_list' %}" {% if not selected_category %}class="active"{% endif %}>
+                            <i class="fas fa-list"></i> Усі товари
+                        </a>
+                        {% for category in categories %}
+                            <a href="{% url 'products:product_list' %}?category={{ category.slug }}" 
+                               {% if selected_category == category.slug %}class="active"{% endif %}>
+                                {{ category.name }}
+                            </a>
+                        {% endfor %}
+                    </div>
+
+                    <!-- Equipment Types -->
+                    <h5 style="margin-top: 30px;">Тип обладнання</h5>
+                    <div class="category-list">
+                        <a href="{% url 'products:product_list' %}" {% if not equipment_type %}class="active"{% endif %}>
+                            <i class="fas fa-list"></i> Усе обладнання
+                        </a>
+                        <a href="{% url 'products:product_list' %}?type=combiner" {% if equipment_type == 'combiner' %}class="active"{% endif %}>
+                            <i class="fas fa-harvest"></i> Комбайни
+                        </a>
+                        <a href="{% url 'products:product_list' %}?type=tractor" {% if equipment_type == 'tractor' %}class="active"{% endif %}>
+                            <i class="fas fa-tractor"></i> Трактори
+                        </a>
+                        <a href="{% url 'products:product_list' %}?type=sprayer" {% if equipment_type == 'sprayer' %}class="active"{% endif %}>
+                            <i class="fas fa-water"></i> Обприскувачі
+                        </a>
+                    </div>
+
+                    <!-- Reset Filters -->
+                    <a href="{% url 'products:product_list' %}" class="btn btn-outline-secondary w-100 mt-4" style="color: #22c55e; border-color: #22c55e; font-weight: 600;">
+                        <i class="fas fa-redo"></i> Скинути фільтри
+                    </a>
+                </div>
+            </div>
+
+            <!-- Products Grid -->
+            <div class="col-md-9">
+                <!-- Filter Info -->
+                <div style="margin-bottom: 25px; padding: 15px; background: #f0fdf4; border-radius: 8px; border-left: 4px solid #22c55e;">
+                    <p style="color: #1a1a1a; margin: 0;">
+                        {% if search_query %}
+                            Результати пошуку за "<strong>{{ search_query }}</strong>"
+                        {% elif equipment_type %}
+                            {% if equipment_type == 'combiner' %}
+                                Тип: <strong>Комбайни</strong>
+                            {% elif equipment_type == 'tractor' %}
+                                Тип: <strong>Трактори</strong>
+                            {% elif equipment_type == 'sprayer' %}
+                                Тип: <strong>Обприскувачі</strong>
+                            {% endif %}
+                        {% elif selected_category %}
+                            Марка: <strong>{{ selected_category }}</strong>
+                        {% else %}
+                            Усі товари
+                        {% endif %}
+                        <span style="float: right;">Знайдено: <strong style="color: #22c55e;">{{ products|length }}</strong></span>
+                    </p>
+                </div>
+
+                <!-- Products -->
+                {% if products %}
+                    <div class="row">
+                        {% for product in products %}
+                            <div class="col-md-6 col-lg-4 mb-4">
+                                <div class="card product-card">
+                                    <!-- Product Image -->
+                                    <a href="{% url 'products:product_detail' product.slug %}" class="text-decoration-none">
+                                        {% if product.image %}
+                                            <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-image">
+                                        {% else %}
+                                            <div class="product-image" style="display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);">
+                                                <i class="fas fa-tractor" style="font-size: 48px; color: #22c55e;"></i>
+                                            </div>
+                                        {% endif %}
+                                    </a>
+
+                                    <div class="product-body">
+                                        <!-- Brand & Year -->
+                                        <p class="product-category">{{ product.brand.name }} | {{ product.year }} р. | {{ product.model_type }}</p>
+
+                                        <!-- Name -->
+                                        <h5 class="product-name">
+                                            <a href="{% url 'products:product_detail' product.slug %}" class="text-decoration-none text-dark">
+                                                {{ product.name }}
+                                            </a>
+                                        </h5>
+
+                                        <!-- Description -->
+                                        <p style="color: #666; font-size: 13px; margin: 10px 0; height: 36px; overflow: hidden;">
+                                            {{ product.description|truncatewords:12 }}
+                                        </p>
+
+                                        <!-- Status -->
+                                        <p style="font-size: 12px; color: #999; margin: 8px 0;">
+                                            {% if product.is_available %}
+                                                <span style="color: #22c55e;"><i class="fas fa-check-circle"></i> Доступний</span>
+                                            {% else %}
+                                                <span style="color: #dc3545;"><i class="fas fa-times-circle"></i> Недоступний</span>
+                                            {% endif %}
+                                        </p>
+
+                                        <!-- Price and Button -->
+                                        <div class="d-flex justify-content-between align-items-center mt-3">
+                                            <span class="product-price" style="color: #22c55e;">{{ product.price }} $</span>
+                                            <a href="{% url 'products:product_detail' product.slug %}" class="btn btn-primary btn-sm">
+                                                <i class="fas fa-eye"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <!-- Empty State -->
+                    <div style="text-align: center; padding: 60px 0;">
+                        <i class="fas fa-inbox" style="font-size: 64px; color: #ddd; margin-bottom: 20px; display: block;"></i>
+                        <h4 style="color: #666; margin-bottom: 10px;">Товари не знайдені</h4>
+                        <p style="color: #999; margin-bottom: 20px;">
+                            {% if search_query %}
+                                На жаль, товари за вашим запитом не знайдені. Спробуйте інший пошук.
+                            {% elif equipment_type %}
+                                Немає товарів цього типу. Оберіть інший тип або марку.
+                            {% else %}
+                                Немає товарів в цій марці. Оберіть інший фільтр.
+                            {% endif %}
+                        </p>
+                        <a href="{% url 'products:product_list' %}" class="btn btn-primary">
+                            <i class="fas fa-list"></i> Переглянути всі товари
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

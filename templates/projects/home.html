@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+
+{% block title %}Головна - AgroRIA{% endblock %}
+
+{% block content %}
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>Ласкаво просимо у AgroRIA</h1>
+            <p>Найбільший вибір вживаних комбайнів з гарантією якості</p>
+            <a href="{% url 'products:product_list' %}" class="btn btn-primary btn-lg">
+                <i class="fas fa-search"></i> Переглянути каталог
+            </a>
+        </div>
+    </section>
+
+    <!-- Why Choose Us Section -->
+    <section class="py-5" style="background: white;">
+        <div class="container">
+            <div class="row text-center mb-5">
+                <div class="col-md-4">
+                    <i class="fas fa-check-circle" style="font-size: 48px; color: #22c55e; margin-bottom: 15px;"></i>
+                    <h5>Перевірена якість</h5>
+                    <p style="color: #666;">Всі комбайни пройшли ретельну перевірку</p>
+                </div>
+                <div class="col-md-4">
+                    <i class="fas fa-shield-alt" style="font-size: 48px; color: #22c55e; margin-bottom: 15px;"></i>
+                    <h5>Гарантія</h5>
+                    <p style="color: #666;">Гарантія на всі товари від 6 місяців</p>
+                </div>
+                <div class="col-md-4">
+                    <i class="fas fa-truck" style="font-size: 48px; color: #22c55e; margin-bottom: 15px;"></i>
+                    <h5>Доставка</h5>
+                    <p style="color: #666;">Доставка по всій Україні</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Products Section -->
+    <section class="py-5" style="background: #f9fafb;">
+        <div class="container">
+            <h2 class="mb-4">Популярні комбайни</h2>
+            <div class="row">
+                {% for product in products %}
+                    <div class="col-md-4 col-sm-6 mb-4">
+                        <div class="card product-card">
+                            {% if product.image %}
+                                <img src="{{ product.image }}" alt="{{ product.name }}" class="product-image">
+                            {% else %}
+                                <div class="product-image" style="display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #e9ecef 0%, #d3d3d3 100%);">
+                                    <i class="fas fa-tractor" style="font-size: 48px; color: #999;"></i>
+                                </div>
+                            {% endif %}
+                            <div class="product-body">
+                                <p class="product-category">{{ product.brand.name }} | {{ product.year }} р.</p>
+                                <h5 class="product-name">{{ product.name }}</h5>
+                                <p style="color: #666; font-size: 13px; margin: 10px 0; height: 36px; overflow: hidden;">
+                                    {{ product.description|truncatewords:10 }}
+                                </p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="product-price" style="color: #22c55e; font-weight: 700;">{{ product.price }} $</span>
+                                    <a href="{% url 'products:product_detail' product.slug %}" class="btn btn-primary btn-sm">
+                                        <i class="fas fa-eye"></i> Детально
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% empty %}
+                    <div class="col-12">
+                        <p class="text-center text-muted py-5">Комбайни відсутні</p>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter Section -->
+    <section class="py-5" style="background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%); color: white;">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-6 text-center">
+                    <h3 class="mb-3">Підпишіться на оновлення</h3>
+                    <p class="mb-4" style="color: rgba(255, 255, 255, 0.9);">Отримуйте інформацію про нові комбайни першими</p>
+                    <form class="d-flex">
+                        <input type="email" class="form-control" placeholder="Ваш email..." required style="border-radius: 6px 0 0 6px; border: 1px solid #ddd;">
+                        <button type="submit" class="btn btn-primary" style="border-radius: 0 6px 6px 0; background-color: white; color: #22c55e; border: none;">Підписатися</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

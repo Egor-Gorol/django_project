@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block title %}Мої замовлення - AgroRIA{% endblock %}
+
+{% block content %}
+	<div style="background: white; padding: 20px 0; border-bottom: 1px solid #e9ecef;">
+		<div class="container">
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb" style="margin: 0;">
+					<li class="breadcrumb-item"><a href="{% url 'products:home' %}" style="color: #22c55e; text-decoration: none; font-weight: 500;">Головна</a></li>
+					<li class="breadcrumb-item active" aria-current="page">Мої замовлення</li>
+				</ol>
+			</nav>
+		</div>
+	</div>
+
+	<div class="container py-5">
+		<div style="background: white; border: 1px solid #e9ecef; border-radius: 12px; padding: 24px;">
+			<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+				<h2 style="margin: 0; font-weight: 700;">Історія замовлень</h2>
+				<a href="{% url 'account:profile' %}" class="btn btn-sm" style="background: #f3f4f6; color: #374151; border: 1px solid #e5e7eb; font-weight: 600;">← Профіль</a>
+			</div>
+
+			{% if orders %}
+				<div class="table-responsive">
+					<table class="table" style="border: 1px solid #e5e7eb;">
+						<thead style="background: #f9fafb;">
+							<tr>
+								<th style="padding: 12px;">№</th>
+								<th style="padding: 12px;">Дата</th>
+								<th style="padding: 12px;">Статус</th>
+								<th style="padding: 12px; text-align: right;">Сума</th>
+								<th style="padding: 12px;"></th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for order in orders %}
+								<tr style="border-top: 1px solid #e5e7eb;">
+									<td style="padding: 12px; font-weight: 600;">#{{ order.id }}</td>
+									<td style="padding: 12px;">{{ order.created_at|date:"d.m.Y" }}</td>
+									<td style="padding: 12px;">{{ order.get_status_display }}</td>
+									<td style="padding: 12px; text-align: right; font-weight: 700; color: #22c55e;">{{ order.total_price|floatformat:0 }} $</td>
+									<td style="padding: 12px; text-align: right;">
+										<a href="{% url 'order:order_confirmation' order.id %}" class="btn btn-sm" style="background: #f3f4f6; color: #374151; border: 1px solid #e5e7eb;">Деталі</a>
+									</td>
+								</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+			{% else %}
+				<div style="text-align: center; padding: 40px 0; color: #6b7280;">У вас ще немає замовлень.</div>
+			{% endif %}
+		</div>
+	</div>
+{% endblock %}

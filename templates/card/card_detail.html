@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block title %}Деталі товару в кошику{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h2 class="mb-4">Деталі товару в кошику</h2>
+                    {% if product %}
+                        <div class="row">
+                            <div class="col-md-4">
+                                {% if product.image %}
+                                    <img src="{{ product.image }}" alt="{{ product.name }}" class="img-fluid rounded">
+                                {% else %}
+                                    <div style="width:100%;height:200px;background:#f0fdf4;display:flex;align-items:center;justify-content:center;border-radius:8px;">
+                                        <i class="fas fa-tractor" style="color:#22c55e;font-size:48px;"></i>
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-8">
+                                <h4>{{ product.name }}</h4>
+                                <p class="text-muted">Тип: {{ product.model_type }}</p>
+                                <p>Ціна: <strong>{{ product.price|floatformat:0 }} $</strong></p>
+                                <p>Кількість: <strong>{{ quantity }}</strong></p>
+                                <p>Опис: {{ product.description }}</p>
+                                <a href="{% url 'products:product_detail' product.slug %}" class="btn btn-outline-success mt-3">Перейти до товару</a>
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="alert alert-warning">Товар не знайдено в кошику.</div>
+                    {% endif %}
+                    <a href="{% url 'card:cart_details' %}" class="btn btn-secondary mt-4">Назад до кошика</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

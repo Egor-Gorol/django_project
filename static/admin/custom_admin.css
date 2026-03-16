@@ -1,0 +1,77 @@
+:root {
+    --primary: #16a34a;
+    --secondary: #14532d;
+    --accent: #22c55e;
+    --primary-fg: #ffffff;
+}
+
+#header {
+    background: linear-gradient(135deg, #14532d 0%, #16a34a 100%);
+    color: #ffffff;
+}
+
+#header a:link,
+#header a:visited {
+    color: #ffffff;
+}
+
+#site-name a {
+    font-weight: 700;
+    letter-spacing: 0.2px;
+}
+
+.module h2,
+.module caption,
+.inline-group h2 {
+    background: #166534;
+}
+
+div.breadcrumbs {
+    background: #22c55e;
+}
+
+.button,
+input[type=submit],
+input[type=button],
+.submit-row input,
+a.button {
+    background: #16a34a;
+    border: 1px solid #15803d;
+}
+
+.button:hover,
+input[type=submit]:hover,
+input[type=button]:hover,
+.submit-row input:hover,
+a.button:hover {
+    background: #15803d;
+}
+
+.object-tools a:link,
+.object-tools a:visited {
+    background: #16a34a;
+}
+
+.object-tools a:hover {
+    background: #15803d;
+}
+
+#changelist-filter h2 {
+    background: #166534;
+}
+
+#changelist-filter li.selected a {
+    color: #166534;
+    font-weight: 700;
+}
+
+.dashboard #content {
+    max-width: 1200px;
+}
+
+.dashboard .module {
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(22, 163, 74, 0.12);
+    border: 1px solid #dcfce7;
+}

@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% block title %}Оформлення замовлення - AgroRIA{% endblock %}
+
+{% block content %}
+	<div style="background: white; padding: 20px 0; border-bottom: 1px solid #e9ecef;">
+		<div class="container">
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb" style="margin: 0;">
+					<li class="breadcrumb-item"><a href="{% url 'products:home' %}" style="color: #22c55e; text-decoration: none; font-weight: 500;">Головна</a></li>
+					<li class="breadcrumb-item"><a href="{% url 'card:cart_details' %}" style="color: #22c55e; text-decoration: none; font-weight: 500;">Кошик</a></li>
+					<li class="breadcrumb-item active" aria-current="page">Оформлення</li>
+				</ol>
+			</nav>
+		</div>
+	</div>
+
+	<div class="container py-5">
+		<div class="row g-4">
+			<div class="col-lg-7">
+				<div style="background: white; border: 1px solid #e9ecef; border-radius: 12px; padding: 24px;">
+					<h3 style="margin: 0 0 16px 0; font-weight: 700;">Дані отримувача</h3>
+					<form method="POST" action="">
+						{% csrf_token %}
+						<div class="mb-3">
+							<label class="form-label" style="font-weight: 600;">{{ form.shipping_name.label }}</label>
+							{{ form.shipping_name }}
+						</div>
+						<div class="mb-3">
+							<label class="form-label" style="font-weight: 600;">{{ form.phone.label }} <span style="color:#dc3545;">*</span></label>
+							{{ form.phone }}
+						</div>
+						<div class="mb-3">
+							<label class="form-label" style="font-weight: 600;">{{ form.shipping_city.label }}</label>
+							{{ form.shipping_city }}
+						</div>
+						<div class="mb-3">
+							<label class="form-label" style="font-weight: 600;">{{ form.shipping_street.label }}</label>
+							{{ form.shipping_street }}
+						</div>
+						<div class="mb-3">
+							<label class="form-label" style="font-weight: 600;">{{ form.comment.label }}</label>
+							{{ form.comment }}
+						</div>
+
+						<button type="submit" class="btn" style="background: #22c55e; color: white; font-weight: 700; border: none;">Підтвердити замовлення</button>
+					</form>
+				</div>
+			</div>
+
+			<div class="col-lg-5">
+				<div style="background: #f8f9fa; border: 1px solid #e9ecef; border-radius: 12px; padding: 24px; position: sticky; top: 100px;">
+					<h4 style="margin: 0 0 16px 0; font-weight: 700;">Ваше замовлення</h4>
+					{% if cart_items %}
+						<div style="display: grid; gap: 12px;">
+							{% for item in cart_items %}
+								<div style="display: flex; justify-content: space-between; gap: 8px;">
+									<div>
+										<div style="font-weight: 600; color: #111827;">{{ item.name }}</div>
+										<div style="font-size: 12px; color: #6b7280;">Кількість: {{ item.quantity }}</div>
+									</div>
+									<div style="font-weight: 700; color: #22c55e;">{{ item.price|floatformat:0 }} $</div>
+								</div>
+							{% endfor %}
+						</div>
+						<div style="border-top: 1px solid #e9ecef; margin-top: 16px; padding-top: 16px; display: flex; justify-content: space-between;">
+							<span style="color: #6b7280;">Загальна сума</span>
+							<strong style="color: #22c55e; font-size: 18px;">{{ total_price|floatformat:0 }} $</strong>
+						</div>
+					{% else %}
+						<p style="margin: 0; color: #6b7280;">Кошик порожній.</p>
+					{% endif %}
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

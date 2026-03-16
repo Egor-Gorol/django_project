@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+
+{% block title %}Замовлення #{{ order.id }} - AgroRIA{% endblock %}
+
+{% block content %}
+    <div style="background: white; padding: 20px 0; border-bottom: 1px solid #e9ecef;">
+        <div class="container">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb" style="margin: 0;">
+                    <li class="breadcrumb-item"><a href="{% url 'products:home' %}" style="color: #22c55e; text-decoration: none; font-weight: 500;">Головна</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'account:profile' %}" style="color: #22c55e; text-decoration: none; font-weight: 500;">Профіль</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'order:order_history' %}" style="color: #22c55e; text-decoration: none; font-weight: 500;">Замовлення</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">#{{ order.id }}</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <div class="container py-5">
+        <div class="row g-4">
+            <!-- Order Items -->
+            <div class="col-lg-8">
+                <div style="background: white; border: 1px solid #e9ecef; border-radius: 12px; padding: 24px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                        <div>
+                            <p style="color: #22c55e; font-weight: 700; letter-spacing: 0.02em; margin: 0; font-size: 12px;">ЗАМОВЛЕННЯ</p>
+                            <h3 style="margin: 4px 0 0 0; font-weight: 700;">#{{ order.id }}</h3>
+                            <p style="margin: 4px 0 0 0; color: #6b7280; font-size: 13px;">{{ order.created_at|date:"d.m.Y H:i" }}</p>
+                        </div>
+                        {% if order.status == 'new' %}
+                            <span style="padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 600; background: #fef9c3; color: #854d0e;">{{ order.get_status_display }}</span>
+                        {% elif order.status == 'processing' %}
+                            <span style="padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 600; background: #dbeafe; color: #1e40af;">{{ order.get_status_display }}</span>
+                        {% elif order.status == 'shipped' %}
+                            <span style="padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 600; background: #f0fdf4; color: #15803d;">{{ order.get_status_display }}</span>
+                        {% elif order.status == 'delivered' %}
+                            <span style="padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 600; background: #dcfce7; color: #166534;">{{ order.get_status_display }}</span>
+                        {% else %}
+                            <span style="padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 600; background: #fee2e2; color: #991b1b;">{{ order.get_status_display }}</span>
+                        {% endif %}
+                    </div>
+
+                    <table class="table" style="border: 1px solid #e5e7eb;">
+                        <thead style="background: #f9fafb;">
+                            <tr>
+                                <th style="padding: 12px; color: #6b7280; font-weight: 600;">Товар</th>
+                                <th style="padding: 12px; color: #6b7280; font-weight: 600; text-align: center;">Кількість</th>
+                                <th style="padding: 12px; color: #6b7280; font-weight: 600; text-align: right;">Ціна</th>
+                                <th style="padding: 12px; color: #6b7280; font-weight: 600; text-align: right;">Сума</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in items %}
+                            <tr style="border-top: 1px solid #e5e7eb;">
+                                <td style="padding: 12px; font-weight: 600; color: #111827;">{{ item.product_name }}</td>
+                                <td style="padding: 12px; text-align: center;">{{ item.quantity }}</td>
+                                <td style="padding: 12px; text-align: right;">{{ item.price|floatformat:0 }} $</td>
+                                <td style="padding: 12px; text-align: right; font-weight: 700; color: #22c55e;">{{ item.total_price|floatformat:0 }} $</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+
+                    <div style="text-align: right; margin-top: 10px;">
+                        <span style="color: #6b7280;">Загальна сума:</span>
+                        <strong style="color: #22c55e; font-size: 20px; margin-left: 8px;">{{ order.total_price|floatformat:0 }} $</strong>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Delivery Info -->
+            <div class="col-lg-4">
+                <div style="background: #f8f9fa; border: 1px solid #e9ecef; border-radius: 12px; padding: 24px; position: sticky; top: 100px;">
+                    <h5 style="font-weight: 700; margin-bottom: 16px;">Дані доставки</h5>
+                    <p style="margin: 0; color: #6b7280; font-size: 13px;">Отримувач</p>
+                    <p style="margin: 2px 0 12px 0; font-weight: 600;">{{ order.shipping_name }}</p>
+
+                    {% if order.shipping_phone %}
+                    <p style="margin: 0; color: #6b7280; font-size: 13px;">Телефон</p>
+                    <p style="margin: 2px 0 12px 0; font-weight: 600;">{{ order.shipping_phone }}</p>
+                    {% endif %}
+
+                    <p style="margin: 0; color: #6b7280; font-size: 13px;">Місто</p>
+                    <p style="margin: 2px 0 12px 0; font-weight: 600;">{{ order.shipping_sity }}</p>
+
+                    <p style="margin: 0; color: #6b7280; font-size: 13px;">Вулиця</p>
+                    <p style="margin: 2px 0 12px 0; font-weight: 600;">{{ order.shipping_street }}</p>
+
+                    {% if order.coment %}
+                    <p style="margin: 0; color: #6b7280; font-size: 13px;">Коментар</p>
+                    <p style="margin: 2px 0 0 0;">{{ order.coment }}</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div style="margin-top: 24px;">
+            <a href="{% url 'order:order_history' %}" class="btn" style="background: #f3f4f6; color: #374151; border: 1px solid #e5e7eb; font-weight: 600;">← Всі замовлення</a>
+            <a href="{% url 'products:product_list' %}" class="btn" style="background: #22c55e; color: white; border: none; font-weight: 700; margin-left: 8px;">До каталогу</a>
+        </div>
+    </div>
+{% endblock %}

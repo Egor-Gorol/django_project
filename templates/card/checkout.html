@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+
+{% block title %}Оформлення замовлення - AgroRIA{% endblock %}
+
+{% block content %}
+    <div style="background: white; padding: 20px 0; border-bottom: 1px solid #e9ecef;">
+        <div class="container">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb" style="margin: 0;">
+                    <li class="breadcrumb-item"><a href="{% url 'products:home' %}" style="color: #22c55e; text-decoration: none; font-weight: 500;">Головна</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'card:cart_details' %}" style="color: #22c55e; text-decoration: none; font-weight: 500;">Кошик</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Оформлення</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div style="background: white; border: 1px solid #e9ecef; border-radius: 12px; box-shadow: 0 6px 18px rgba(0,0,0,0.04); padding: 30px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                        <div>
+                            <p style="color: #22c55e; font-weight: 700; letter-spacing: 0.02em; margin: 0; font-size: 12px;">КОШИК</p>
+                            <h2 style="margin: 5px 0 0 0; font-weight: 700; color: #1f2937;">Оформлення замовлення</h2>
+                            <p style="margin: 6px 0 0 0; color: #6b7280;">Перевірте товари перед підтвердженням</p>
+                        </div>
+                        <a href="{% url 'card:cart_details' %}" class="btn btn-light" style="border: 1px solid #e5e7eb; color: #374151; font-weight: 600;">← Назад до кошика</a>
+                    </div>
+
+                    {% if cart and item_count > 0 %}
+                        <div class="table-responsive" style="margin-top: 20px;">
+                            <table class="table" style="border: 1px solid #e5e7eb; border-radius: 8px; overflow: hidden;">
+                                <thead style="background: #f9fafb;">
+                                    <tr>
+                                        <th style="padding: 14px; color: #6b7280; font-weight: 600;">Товар</th>
+                                        <th style="padding: 14px; color: #6b7280; font-weight: 600;">Тип</th>
+                                        <th style="padding: 14px; color: #6b7280; font-weight: 600; text-align:center;">Кількість</th>
+                                        <th style="padding: 14px; color: #6b7280; font-weight: 600; text-align:right;">Ціна</th>
+                                        <th style="padding: 14px; color: #6b7280; font-weight: 600; text-align:right;">Сума</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for key, item in cart.items %}
+                                    <tr style="border-top: 1px solid #e5e7eb;">
+                                        <td style="padding: 14px; font-weight: 600; color: #1f2937;">{{ item.name }}</td>
+                                        <td style="padding: 14px; color: #6b7280;">{{ item.model_type }}</td>
+                                        <td style="padding: 14px; text-align:center; font-weight: 600;">{{ item.quantity }}</td>
+                                        <td style="padding: 14px; text-align:right; color: #111827; font-weight: 600;">{{ item.price|floatformat:0 }} $</td>
+                                        <td style="padding: 14px; text-align:right; color: #22c55e; font-weight: 700;">
+                                            {% widthratio item.price 1 item.quantity %} $
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 24px;">
+                            <div>
+                                <p style="margin: 0; color: #6b7280;">Всього товарів: <strong style="color: #111827;">{{ item_count }}</strong></p>
+                            </div>
+                            <div style="text-align: right;">
+                                <p style="margin: 0; color: #6b7280; font-size: 12px;">ЗАГАЛЬНА СУМА</p>
+                                <h3 style="margin: 4px 0 0 0; color: #22c55e; font-weight: 800;">{{ total_price|floatformat:0 }} $</h3>
+                            </div>
+                        </div>
+
+                        <div style="margin-top: 24px; padding: 14px; border: 1px dashed #d1fae5; background: #f0fdf4; color: #065f46; border-radius: 8px;">
+                            Це демо-сторінка. Оформлення замовлення поки не реалізовано.
+                        </div>
+
+                        <div style="margin-top: 20px; display: flex; gap: 12px;">
+                            <a href="{% url 'products:product_list' %}" class="btn" style="background: #f3f4f6; color: #374151; border: 1px solid #e5e7eb; font-weight: 600;">← Продовжити покупки</a>
+                            <button class="btn" disabled style="background: #22c55e; color: white; font-weight: 700; border: none;">Підтвердити (демо)</button>
+                        </div>
+                    {% else %}
+                        <div style="text-align: center; padding: 60px 0;">
+                            <i class="fas fa-shopping-cart" style="font-size: 64px; color: #ddd; margin-bottom: 20px; display: block;"></i>
+                            <h4 style="color: #666; margin-bottom: 10px;">Ваш кошик порожній</h4>
+                            <p style="color: #999; margin-bottom: 20px;">Додайте товари для оформлення замовлення</p>
+                            <a href="{% url 'products:product_list' %}" class="btn" style="background: #22c55e; color: white; padding: 12px 30px; border: none; border-radius: 4px; text-decoration: none; font-weight: 600;">Перейти до каталогу</a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

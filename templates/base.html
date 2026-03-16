@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}AgroRIA - Продаж комбайнів{% endblock %}</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            color: #1a1a1a;
+            background-color: #ffffff;
+            line-height: 1.6;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            color: #1a1a1a;
+        }
+        
+        /* Header & Navigation */
+        .navbar {
+            background: linear-gradient(135deg, #ffffff 0%, #f0fdf4 100%);
+            box-shadow: 0 2px 10px rgba(34, 197, 94, 0.08);
+            border-bottom: 2px solid #22c55e;
+        }
+        
+        .navbar-brand {
+            font-family: 'Poppins', sans-serif;
+            font-size: 24px;
+            font-weight: 700;
+            color: #1a1a1a !important;
+            letter-spacing: -0.5px;
+        }
+        
+        .nav-link {
+            color: #555 !important;
+            font-weight: 500;
+            margin-left: 15px;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-link:hover {
+            color: #22c55e !important;
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+            padding: 80px 0;
+            text-align: center;
+            border-bottom: none;
+            color: white;
+        }
+        
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            font-weight: 700;
+            color: white !important;
+        }
+        
+        .hero p {
+            font-size: 18px;
+            color: rgba(255, 255, 255, 0.9) !important;
+            margin-bottom: 30px;
+        }
+        
+        /* Products Grid */
+        .product-card {
+            background: white;
+            border: none;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            height: 100%;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+        }
+        
+        .product-image {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+            background: linear-gradient(135deg, #f5f5f5 0%, #e9ecef 100%);
+        }
+        
+        .product-body {
+            padding: 20px;
+        }
+        
+        .product-name {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #1a1a1a;
+            min-height: 40px;
+        }
+        
+        .product-price {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin: 15px 0;
+        }
+        
+        .product-category {
+            font-size: 12px;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+        
+        .btn-primary {
+            background-color: #22c55e;
+            border-color: #22c55e;
+            font-weight: 600;
+            padding: 10px 20px;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #16a34a;
+            border-color: #16a34a;
+            transform: translateY(-2px);
+            color: white;
+        }
+        
+        .btn-outline-secondary {
+            color: #1a1a1a;
+            border-color: #ddd;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-outline-secondary:hover {
+            background-color: #f5f5f5;
+            border-color: #1a1a1a;
+            color: #1a1a1a;
+        }
+        
+        /* Sidebar */
+        .sidebar {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            height: fit-content;
+        }
+        
+        .sidebar h5 {
+            font-size: 16px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #f5f5f5;
+            padding-bottom: 15px;
+        }
+        
+        .category-list a {
+            display: block;
+            padding: 10px 0;
+            color: #666;
+            text-decoration: none;
+            border-left: 3px solid transparent;
+            padding-left: 12px;
+            transition: all 0.3s ease;
+        }
+        
+        .category-list a:hover,
+        .category-list a.active {
+            color: #22c55e;
+            border-left-color: #22c55e;
+            font-weight: 600;
+        }
+        
+        /* Product Detail */
+        .product-detail-image {
+            width: 100%;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #f5f5f5 0%, #e9ecef 100%);
+            object-fit: cover;
+        }
+        
+        .product-specs {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+        
+        .spec-item {
+            padding: 12px 0;
+            border-bottom: 1px solid #f5f5f5;
+        }
+        
+        .spec-item:last-child {
+            border-bottom: none;
+        }
+        
+        .spec-label {
+            font-weight: 600;
+            color: #1a1a1a;
+            display: inline-block;
+            width: 120px;
+        }
+        
+        .spec-value {
+            color: #666;
+        }
+        
+        /* Footer */
+        .footer {
+            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+            border-top: none;
+            padding: 40px 0 20px;
+            margin-top: 60px;
+            color: white;
+        }
+        
+        .footer h6 {
+            font-size: 14px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: white;
+        }
+        
+        .footer a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s ease;
+        }
+        
+        .footer a:hover {
+            color: white;
+        }
+        
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            padding-top: 20px;
+            margin-top: 30px;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 14px;
+        }
+        
+        .footer p {
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        /* Filters */
+        .search-box {
+            position: relative;
+            margin-bottom: 25px;
+        }
+        
+        .search-box input {
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 12px 15px;
+            width: 100%;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        .search-box input:focus {
+            border-color: #22c55e;
+            box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1);
+            outline: none;
+        }
+        
+        /* Badge */
+        .badge-category {
+            background-color: #e9ecef;
+            color: #1a1a1a;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+            display: inline-block;
+            margin-right: 8px;
+            margin-bottom: 10px;
+        }
+        
+        /* Related Products */
+        .related-section {
+            margin-top: 60px;
+            padding-top: 40px;
+            border-top: 1px solid #e9ecef;
+        }
+        
+        .related-section h3 {
+            margin-bottom: 30px;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 32px;
+            }
+            
+            .product-card {
+                margin-bottom: 20px;
+            }
+            
+            .sidebar {
+                margin-top: 30px;
+            }
+        }
+    </style>
+    
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'products:home' %}">
+                <i class="fas fa-tractor"></i> AgroRIA
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'products:home' %}">Головна</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'products:product_list' %}">Каталог</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'products:contact' %}">Контакти</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'card:cart_details' %}" style="position: relative;">
+                            <i class="fas fa-shopping-cart"></i> Кошик
+                            {% if request.session.cart %}
+                                <span style="position: absolute; top: -8px; right: -8px; background: #dc3545; color: white; border-radius: 50%; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700;">{{ request.session.cart|length }}</span>
+                            {% endif %}
+                        </a>
+                    </li>
+                    {% if request.user.is_authenticated %}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="accountMenu" role="button" data-bs-toggle="dropdown">{{ request.user.username }}</a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="accountMenu">
+                                <li><a class="dropdown-item" href="{% url 'account:profile' %}">Профіль</a></li>
+                                <li><a class="dropdown-item" href="{% url 'account:logout' %}">Вийти</a></li>
+                            </ul>
+                        </li>
+                    {% else %}
+                        <li class="nav-item"><a class="nav-link" href="{% url 'account:login' %}">Увійти</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'account:register' %}">Реєстрація</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    {% block content %}{% endblock %}
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3">
+                    <h6>Про нас</h6>
+                    <p style="font-size: 14px; color: rgba(255, 255, 255, 0.8);">AgroRIA - інтернет-магазин вживаної агротехніки з гарантією якості.</p>
+                </div>
+                <div class="col-md-3">
+                    <h6>Навігація</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="{% url 'products:home' %}">Головна</a></li>
+                        <li><a href="{% url 'products:product_list' %}">Каталог</a></li>
+                        <li><a href="{% url 'products:contact' %}">Контакти</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h6>Контакти</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="tel:+380123456789">+38 (012) 345-67-89</a></li>
+                        <li><a href="mailto:info@combinershop.ua">info@combinershop.ua</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h6>Слідкуйте</h6>
+                    <div>
+                        <a href="#" style="margin-right: 10px;"><i class="fab fa-facebook"></i></a>
+                        <a href="#" style="margin-right: 10px;"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 AgroRIA. Всі права захищені.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

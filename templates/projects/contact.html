@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block title %}Контакти - AgroRIA{% endblock %}
+
+{% block content %}
+<section class="py-5" style="background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%); min-height: 70vh;">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="text-center mb-5">
+                    <h1 class="mb-3">Контакти</h1>
+                    <p class="text-muted mb-0">Зв'яжіться з нами будь-яким зручним способом. Допоможемо з вибором техніки та оформленням замовлення.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-md-6 col-lg-4">
+                <div class="p-4 h-100 bg-white rounded-4 shadow-sm">
+                    <div class="mb-3" style="font-size: 26px; color: #22c55e;">
+                        <i class="fas fa-phone"></i>
+                    </div>
+                    <h5 class="mb-2">Телефон</h5>
+                    <p class="mb-0"><a href="tel:+380123456789">+38 (012) 345-67-89</a></p>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4">
+                <div class="p-4 h-100 bg-white rounded-4 shadow-sm">
+                    <div class="mb-3" style="font-size: 26px; color: #22c55e;">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <h5 class="mb-2">Email</h5>
+                    <p class="mb-0"><a href="mailto:info@combinershop.ua">info@combinershop.ua</a></p>
+                </div>
+            </div>
+
+            <div class="col-md-12 col-lg-4">
+                <div class="p-4 h-100 bg-white rounded-4 shadow-sm">
+                    <div class="mb-3" style="font-size: 26px; color: #22c55e;">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <h5 class="mb-2">Адреса</h5>
+                    <p class="mb-0">м. Київ, вул. Прикладна, 12</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-5">
+            <div class="col-12">
+                <div class="p-4 p-md-5 bg-white rounded-4 shadow-sm">
+                    <h4 class="mb-3">Графік роботи</h4>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p class="mb-2"><strong>Пн - Пт:</strong> 09:00 - 18:00</p>
+                            <p class="mb-0"><strong>Сб:</strong> 10:00 - 15:00</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p class="mb-0"><strong>Нд:</strong> вихідний</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
