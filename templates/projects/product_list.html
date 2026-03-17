@@ -121,8 +121,11 @@
                                             {{ product.description|truncatewords:12 }}
                                         </p>
 
-                                        <!-- Status -->
+                                        <!-- Location & Status -->
                                         <p style="font-size: 12px; color: #999; margin: 8px 0;">
+                                            {% if product.location %}
+                                                <span style="color: #555;"><i class="fas fa-map-marker-alt" style="color: #22c55e;"></i> {{ product.location }}</span><br>
+                                            {% endif %}
                                             {% if product.is_available %}
                                                 <span style="color: #22c55e;"><i class="fas fa-check-circle"></i> Доступний</span>
                                             {% else %}

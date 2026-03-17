@@ -136,6 +136,12 @@
                         <span class="spec-label">Стан:</span>
                         <span class="spec-value" style="color: #22c55e; font-weight: 600;">{{ product.condition.get_name_display }}</span>
                     </div>
+                    {% if product.location %}
+                    <div class="spec-item">
+                        <span class="spec-label">Місцезнаходження:</span>
+                        <span class="spec-value"><i class="fas fa-map-marker-alt" style="color: #22c55e;"></i> {{ product.location }}</span>
+                    </div>
+                    {% endif %}
                     <div class="spec-item">
                         <span class="spec-label">Годин роботи:</span>
                         <span class="spec-value">{{ product.working_hours }} годин</span>
